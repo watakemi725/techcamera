@@ -18,7 +18,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="G2l-7Y-HOy">
-                                <rect key="frame" x="123" y="485" width="74" height="50"/>
+                                <rect key="frame" x="28" y="487" width="74" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.27048405619999999" green="0.7530910609" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="take photo">
@@ -26,6 +26,25 @@
                                 </state>
                                 <connections>
                                     <action selector="takePhoto" destination="BYZ-38-t0r" eventType="touchUpInside" id="oXS-Dk-da0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yhr-AR-pdI">
+                                <rect key="frame" x="123" y="487" width="74" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.2891399777921787" blue="0.31296072017116683" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="save">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="It3-fY-xl1">
+                                <rect key="frame" x="226" y="487" width="74" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.2627932553149982" blue="0.78885159058211873" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="filter">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sepiaFilter" destination="BYZ-38-t0r" eventType="touchUpInside" id="39W-PI-C8k"/>
                                 </connections>
                             </button>
                         </subviews>
