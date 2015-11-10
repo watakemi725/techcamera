@@ -12,7 +12,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet var cameraImageView : UIImageView!
     
-    var filteredImage : UIImage!
+    var firstImage : UIImage!
     
 
     override func viewDidLoad() {
@@ -41,17 +41,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         cameraImageView.image = info[UIImagePickerControllerEditedImage] as? UIImage
     
-        filteredImage = cameraImageView.image
+        firstImage = cameraImageView.image
         
         // 撮影した画像をセットする
         //filteredImage = image
         
         
         // ----- 合成した画像を保存する
-        UIGraphicsBeginImageContext(cameraImageView.bounds.size)
-        cameraImageView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        UIImageWriteToSavedPhotosAlbum(UIGraphicsGetImageFromCurrentImageContext(), self, nil, nil)
-        UIGraphicsEndImageContext()
+//        UIGraphicsBeginImageContext(cameraImageView.bounds.size)
+//        cameraImageView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+//        UIImageWriteToSavedPhotosAlbum(UIGraphicsGetImageFromCurrentImageContext(), self, nil, nil)
+//        UIGraphicsEndImageContext()
         
         dismissViewControllerAnimated(true, completion: nil)    // アプリ画面へ戻る
     }
@@ -63,25 +63,42 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //保存処理のイベント
     func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
+        print("保存できた")
         if error != nil {
+            print("保存できなかぅた")
             //エラーの時
         }
     }
     
     
     @IBAction func sepiaFilter(){
-        // image が 元画像のUIImage
-        let ciImage:CIImage = CIImage(image:filteredImage)!
-        let ciFilter:CIFilter = CIFilter(name: "CISepiaTone")!
-        ciFilter.setValue(ciImage, forKey: kCIInputImageKey)
-        ciFilter.setValue(0.8, forKey: "inputIntensity")
-        let ciContext:CIContext = CIContext(options: nil)
-        let cgimg:CGImageRef = ciContext.createCGImage(ciFilter.outputImage!, fromRect:ciFilter.outputImage!.extent)
         
-        //image2に加工後のUIImage
-        let image2:UIImage = UIImage(CGImage: cgimg)//, scale: 1.0, orientation:UIImageOrientation.Right)//UIImageOrientation.up
         
-        cameraImageView.image = image2
+//        let ciImage : CIImage = CIImage(image:cameraImageView.image!)!
+        let ciImage : CIImage = CIImage(image:firstImage)!
+
+        let filter = CIFilter(name: "CISepiaTone")!
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(0.5, forKey: kCIInputIntensityKey)
+
+        cameraImageView.image = UIImage(CIImage: filter.outputImage!)
+
+    }
+    
+    @IBAction func colorFilter(){
+        
+        
+//        let ciImage : CIImage = CIImage(image:cameraImageView.image!)!
+        let ciImage : CIImage = CIImage(image:firstImage)!
+
+        let filter = CIFilter(name: "CIColorControls")!
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(1.0, forKey: "inputSaturation")
+        filter.setValue(0.5, forKey: "inputBrightness")
+        filter.setValue(3.0, forKey: "inputContrast")
+        
+        cameraImageView.image = UIImage(CIImage: filter.outputImage!)
+        
     }
     
     override func didReceiveMemoryWarning() {
