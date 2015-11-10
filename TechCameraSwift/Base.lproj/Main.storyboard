@@ -40,7 +40,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="It3-fY-xl1">
-                                <rect key="frame" x="226" y="487" width="74" height="50"/>
+                                <rect key="frame" x="219" y="487" width="74" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.2627932553149982" blue="0.78885159058211873" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="filter">
@@ -51,7 +51,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5QU-Eg-aRI">
-                                <rect key="frame" x="226" y="424" width="74" height="50"/>
+                                <rect key="frame" x="219" y="424" width="74" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="color filter">
@@ -59,6 +59,17 @@
                                 </state>
                                 <connections>
                                     <action selector="colorFilter" destination="BYZ-38-t0r" eventType="touchUpInside" id="SQl-m5-Uxg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="CSm-Ka-AMS">
+                                <rect key="frame" x="123" y="424" width="74" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="album">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="openAlbum" destination="BYZ-38-t0r" eventType="touchUpInside" id="Z1R-iS-glr"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -8,12 +8,17 @@
 
 import UIKit
 
+//写真保存用
+import AssetsLibrary
+
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var cameraImageView : UIImageView!
     
+    
     var firstImage : UIImage!
     
+    var filter : CIFilter!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,62 +27,70 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     
     @IBAction func takePhoto(){
-        // ----- カメラを起動する
-        let picker = UIImagePickerController()
-        picker.sourceType = UIImagePickerControllerSourceType.Camera
-        picker.delegate = self
         
-        //カメラを正方形の形に開く
-        picker.allowsEditing = true
         
-        presentViewController(picker, animated: true, completion: nil)
+        
+//        let sourceType : UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.Camera
+        // カメラが利用可能かチェック
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+
+            // ----- カメラを起動する
+            let picker = UIImagePickerController()
+            picker.sourceType = UIImagePickerControllerSourceType.Camera
+            picker.delegate = self
+            
+            //カメラを正方形の形に開く
+            picker.allowsEditing = true
+            
+            presentViewController(picker, animated: true, completion: nil)
+            
+        }
+        else{
+            print("error")
+            
+        }
+        
+        
+        
+
     }
     
-//    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-//        cameraImageView.image = image
-//        
+
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
         
         cameraImageView.image = info[UIImagePickerControllerEditedImage] as? UIImage
     
         firstImage = cameraImageView.image
-        
-        // 撮影した画像をセットする
-        //filteredImage = image
-        
-        
-        // ----- 合成した画像を保存する
-//        UIGraphicsBeginImageContext(cameraImageView.bounds.size)
-//        cameraImageView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-//        UIImageWriteToSavedPhotosAlbum(UIGraphicsGetImageFromCurrentImageContext(), self, nil, nil)
-//        UIGraphicsEndImageContext()
         
         dismissViewControllerAnimated(true, completion: nil)    // アプリ画面へ戻る
     }
     
     
     @IBAction func savePhoto(){
-        UIImageWriteToSavedPhotosAlbum(cameraImageView.image!, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        
+        let imageToSave = filter.outputImage!
+        
+        let softwareContext = CIContext(options:[kCIContextUseSoftwareRenderer: true])
+
+        let cgimg = softwareContext.createCGImage(imageToSave, fromRect:imageToSave.extent)
+        
+        let library = ALAssetsLibrary()
+        
+        library.writeImageToSavedPhotosAlbum(cgimg,metadata:imageToSave.properties,completionBlock:nil)
+        
     }
-    
-    //保存処理のイベント
-    func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
-        print("保存できた")
-        if error != nil {
-            print("保存できなかぅた")
-            //エラーの時
-        }
-    }
+
     
     
     @IBAction func sepiaFilter(){
         
         
-//        let ciImage : CIImage = CIImage(image:cameraImageView.image!)!
         let ciImage : CIImage = CIImage(image:firstImage)!
 
-        let filter = CIFilter(name: "CISepiaTone")!
+        //let 
+        filter = CIFilter(name: "CISepiaTone")!
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         filter.setValue(0.5, forKey: kCIInputIntensityKey)
 
@@ -88,10 +101,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func colorFilter(){
         
         
-//        let ciImage : CIImage = CIImage(image:cameraImageView.image!)!
         let ciImage : CIImage = CIImage(image:firstImage)!
 
-        let filter = CIFilter(name: "CIColorControls")!
+        //let
+        filter = CIFilter(name: "CIColorControls")!
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         filter.setValue(1.0, forKey: "inputSaturation")
         filter.setValue(0.5, forKey: "inputBrightness")
@@ -101,6 +114,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
+    
+    @IBAction func openAlbum(){
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            
+            //カメラを正方形の形に開く
+            picker.allowsEditing = true
+            
+            self.presentViewController(picker, animated: true, completion: nil)
+        }
+    }
+ 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
